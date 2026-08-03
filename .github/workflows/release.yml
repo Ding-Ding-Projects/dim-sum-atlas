@@ -23,13 +23,20 @@ jobs:
           $releaseTag = "v0.1.$env:GITHUB_RUN_NUMBER"
           $releaseVersion = $releaseTag.TrimStart('v')
           $releaseDate = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
-          $photoUrl = 'https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0001-classic-har-gow.png'
+          $catalog = Invoke-RestMethod 'https://raw.githubusercontent.com/Ding-Ding-Projects/dim-sum-photos/main/catalog/index.json'
+          $catalogIndex = ([int]$env:GITHUB_RUN_NUMBER - 1) % [int]$catalog.total
+          $dish = @($catalog.dishes)[$catalogIndex]
+          if (-not $dish -or -not $dish.image.path) { throw "Public catalog record $catalogIndex has no published image path." }
+          $photoName = [IO.Path]::GetFileName($dish.image.path)
+          $photoUrl = "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/$photoName"
+          $codeName = "$($dish.name.en) · $($dish.name.zhHant)"
+          if ((Invoke-WebRequest -Uri $photoUrl -Method Head -UseBasicParsing).StatusCode -ne 200) { throw "Public photo asset is not published: $photoUrl" }
           $current = [ordered]@{
             version = $releaseVersion
             date = $releaseDate
             commit = $env:GITHUB_SHA
             releaseUrl = "https://github.com/$env:GITHUB_REPOSITORY/releases/tag/$releaseTag"
-            codeName = 'Classic Har Gow · 蝦餃'
+            codeName = $codeName
             photoUrl = $photoUrl
             title = 'Material 3 atlas release'
             body = 'Published the public catalog atlas and its verified Windows package.'
@@ -59,7 +66,14 @@ jobs:
         run: |
           $tag = "v0.1.$env:GITHUB_RUN_NUMBER"
           $zip = "DimSumAtlas-$tag-windows-x64.zip"
-          $photoUrl = 'https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0001-classic-har-gow.png'
+          $catalog = Invoke-RestMethod 'https://raw.githubusercontent.com/Ding-Ding-Projects/dim-sum-photos/main/catalog/index.json'
+          $catalogIndex = ([int]$env:GITHUB_RUN_NUMBER - 1) % [int]$catalog.total
+          $dish = @($catalog.dishes)[$catalogIndex]
+          if (-not $dish -or -not $dish.image.path) { throw "Public catalog record $catalogIndex has no published image path." }
+          $photoName = [IO.Path]::GetFileName($dish.image.path)
+          $photoUrl = "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/$photoName"
+          $codeName = "$($dish.name.en) · $($dish.name.zhHant)"
+          if ((Invoke-WebRequest -Uri $photoUrl -Method Head -UseBasicParsing).StatusCode -ne 200) { throw "Public photo asset is not published: $photoUrl" }
           Compress-Archive -Path "dist/DimSumAtlas-win32-x64/*" -DestinationPath $zip
-          $notes = "Automated Windows portable build for $env:GITHUB_SHA.`n`n## Dim sum code name`n`nClassic Har Gow · 蝦餃`n`n[Public catalog photo]($photoUrl)`n`n## CI line count`n`n````text`n$(Get-Content line-count.txt -Raw)````"
+          $notes = 'Automated Windows portable build for ' + $env:GITHUB_SHA + [Environment]::NewLine + [Environment]::NewLine + '## Dim sum code name' + [Environment]::NewLine + [Environment]::NewLine + $codeName + [Environment]::NewLine + [Environment]::NewLine + '[Public catalog photo](' + $photoUrl + ')' + [Environment]::NewLine + [Environment]::NewLine + '## CI line count' + [Environment]::NewLine + [Environment]::NewLine + (Get-Content line-count.txt -Raw)
           gh release create $tag $zip --repo $env:GITHUB_REPOSITORY --title "Dim Sum Atlas $tag" --notes $notes --target $env:GITHUB_SHA
