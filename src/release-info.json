@@ -1,0 +1,24 @@
+{
+  "version": "0.1.2",
+  "date": "2026-08-03",
+  "commit": "a7dd7797891896ed1062ad1c048703a111fcbe39",
+  "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.2",
+  "history": [
+    {
+      "version": "0.1.1",
+      "date": "2026-08-03",
+      "commit": "993b8e8bb3367f32da463afa8b499a78cdf3b9af",
+      "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.1",
+      "title": "Material 3 atlas foundation",
+      "body": "Published the frameless Windows shell, public catalog loader, local image cache, gallery, favorites, and the first portable release."
+    },
+    {
+      "version": "0.1.2",
+      "date": "2026-08-03",
+      "commit": "a7dd7797891896ed1062ad1c048703a111fcbe39",
+      "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.2",
+      "title": "Documentation site and release handoff",
+      "body": "Published the Day Teet Hui landing page, installer link, and the release workflow evidence for the public atlas."
+    }
+  ]
+}

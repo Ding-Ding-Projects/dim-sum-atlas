@@ -18,6 +18,26 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - shell: pwsh
+        run: |
+          $releaseTag = "v0.1.$env:GITHUB_RUN_NUMBER"
+          $releaseInfo = @{
+            version = $releaseTag.TrimStart('v')
+            date = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
+            commit = $env:GITHUB_SHA
+            releaseUrl = "https://github.com/$env:GITHUB_REPOSITORY/releases/tag/$releaseTag"
+            history = @(
+              @{
+                version = $releaseTag.TrimStart('v')
+                date = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
+                commit = $env:GITHUB_SHA
+                releaseUrl = "https://github.com/$env:GITHUB_REPOSITORY/releases/tag/$releaseTag"
+                title = 'Material 3 atlas release'
+                body = 'Published the public catalog atlas and its verified Windows package.'
+              }
+            )
+          } | ConvertTo-Json -Depth 5
+          Set-Content -Path src/release-info.json -Value $releaseInfo -Encoding utf8
       - run: npm run check
       - run: node scripts/count-lines.mjs | Tee-Object -FilePath line-count.txt
       - run: npm run package:windows
