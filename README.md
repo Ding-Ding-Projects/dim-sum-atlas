@@ -17,6 +17,7 @@ Run `npm run check` for syntax and catalog validation. Run `npm run package:wind
 - [Public catalog source](https://github.com/Ding-Ding-Projects/dim-sum-photos)
 - [Roadmap](ROADMAP.md)
 - [Handoff](HANDOFF.md)
+- [Release manifest contract](docs/release-manifest.md)
 
 <details><summary>Data and privacy contract</summary>
 

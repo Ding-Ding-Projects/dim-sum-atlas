@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "validate:data": "node data/validate.mjs",
-    "check": "node --check src/main.js && node --check src/preload.js && node --check src/renderer.js && node data/validate.mjs",
+    "check": "node --check src/main.js && node --check src/preload.js && node --check src/renderer.js && node data/validate.mjs && node data/validate-release-info.mjs",
     "package:windows": "electron-packager . DimSumAtlas --platform=win32 --arch=x64 --out=dist --overwrite --asar"
   },
   "devDependencies": {
