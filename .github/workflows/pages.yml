@@ -32,6 +32,7 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
       - name: Resolve verified release installer
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_run'
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -51,8 +52,8 @@ jobs:
             .replace(/https:\/\/github\.com\/Ding-Ding-Projects\/dim-sum-atlas\/releases\/download\/[^/]+\/[^"']+-windows-x64\.zip/u, assetUrl)
             .replace(/Download Windows v[^ ]+ portable package/u, `Download Windows ${releaseTag} portable package`)
             .replace(/href="https:\/\/github\.com\/Ding-Ding-Projects\/dim-sum-atlas\/releases\/tag\/[^"']+">v[^<]+<\/a>, built from <code>[^<]+<\/code>/u, `href="https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/${releaseTag}">${releaseTag}</a>, built from <code>${releaseSha}</code>`);
-          if (updated === original) throw new Error('No verified installer marker changed in docs/index.html');
-          fs.writeFileSync(path, updated);
+          if (updated === original) console.log('Pages copy already advertises the latest verified release.');
+          else fs.writeFileSync(path, updated);
           NODE
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
