@@ -1,5 +1,5 @@
 const DEFAULT_PREFS = { language: 'en', englishFunny: 2, cantoneseFunny: 3, narrator: false, narratorLanguage: 'en', theme: 'dark', density: 'comfortable', accent: '#a9d8b7', font: 'Segoe UI', scale: 100, weight: 500, radius: 22, reducedMotion: false };
-const CURRENT_RELEASE_FALLBACK = { version: '0.1.7', date: '2026-08-03', commit: '43a9c21c28c793c86941b4de7957495827762989', releaseUrl: 'https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.7', codeName: 'Pea Shoot Shrimp Dumpling · 豆苗蝦餃', photoUrl: 'https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0007-pea-shoot-shrimp-dumpling.png', history: [] };
+const CURRENT_RELEASE_FALLBACK = { version: '0.1.8', date: '2026-08-03', commit: '4dbb4ebd0a993a46f34d7e9e3f30e907ffb41013', releaseUrl: 'https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.8', codeName: 'Lobster Dumpling · 龍蝦餃', photoUrl: 'https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0008-lobster-dumpling.png', history: [] };
 let releaseInfo = CURRENT_RELEASE_FALLBACK;
 const VIEWS = [
   { id: 'gallery', label: 'Gallery', icon: '⌂', pinned: true, group: 'Atlas' },

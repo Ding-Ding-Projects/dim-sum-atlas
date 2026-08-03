@@ -7,6 +7,9 @@ on:
       - docs/**
       - .github/workflows/pages.yml
   workflow_dispatch:
+  workflow_run:
+    workflows: [Windows release]
+    types: [completed]
 
 permissions:
   contents: read
@@ -19,12 +22,38 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - name: Resolve verified release installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          release_tag="$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName --jq '.tagName')"
+          asset_url="$(gh release view --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[] | select(.name | endswith("-windows-x64.zip")) | .url' | head -n 1)"
+          release_sha="$(gh api "repos/$GITHUB_REPOSITORY/commits/$release_tag" --jq '.sha')"
+          test -n "$release_tag"
+          test -n "$asset_url"
+          node - "$asset_url" "$release_tag" "$release_sha" <<'NODE'
+          const fs = require('node:fs');
+          const [assetUrl, releaseTag, releaseSha] = process.argv.slice(2);
+          const path = 'docs/index.html';
+          const original = fs.readFileSync(path, 'utf8');
+          const updated = original
+            .replace(/https:\/\/github\.com\/Ding-Ding-Projects\/dim-sum-atlas\/releases\/download\/[^/]+\/[^"']+-windows-x64\.zip/u, assetUrl)
+            .replace(/Download Windows v[^ ]+ portable package/u, `Download Windows ${releaseTag} portable package`)
+            .replace(/href="https:\/\/github\.com\/Ding-Ding-Projects\/dim-sum-atlas\/releases\/tag\/[^"']+">v[^<]+<\/a>, built from <code>[^<]+<\/code>/u, `href="https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/${releaseTag}">${releaseTag}</a>, built from <code>${releaseSha}</code>`);
+          if (updated === original) throw new Error('No verified installer marker changed in docs/index.html');
+          fs.writeFileSync(path, updated);
+          NODE
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

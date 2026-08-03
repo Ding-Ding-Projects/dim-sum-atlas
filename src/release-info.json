@@ -1,10 +1,10 @@
 {
-  "version": "0.1.7",
+  "version": "0.1.8",
   "date": "2026-08-03",
-  "commit": "43a9c21c28c793c86941b4de7957495827762989",
-  "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.7",
+  "commit": "4dbb4ebd0a993a46f34d7e9e3f30e907ffb41013",
+  "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.8",
   "codeName": "Pea Shoot Shrimp Dumpling · 豆苗蝦餃",
-  "photoUrl": "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0007-pea-shoot-shrimp-dumpling.png",
+  "photoUrl": "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0008-lobster-dumpling.png",
   "history": [
     { "version": "0.1.1", "date": "2026-08-03", "commit": "993b8e8bb3367f32da463afa8b499a78cdf3b9af", "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.1", "title": "Material 3 atlas foundation", "body": "Published the frameless Windows shell, public catalog loader, local image cache, gallery, favorites, and the first portable release." },
     { "version": "0.1.2", "date": "2026-08-03", "commit": "a7dd7797891896ed1062ad1c048703a111fcbe39", "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.2", "title": "Documentation site and release handoff", "body": "Published the documentation landing page, installer link, and release workflow evidence for the public atlas." },
@@ -12,6 +12,7 @@
     { "version": "0.1.4", "date": "2026-08-03", "commit": "a469b6f3de220076de7720c18d9fd5f09bbee3e4", "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.4", "codeName": "Classic Har Gow · 蝦餃", "photoUrl": "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0001-classic-har-gow.png", "title": "Truthful filtered export", "body": "Made filtered export and release metadata truthful." },
     { "version": "0.1.5", "date": "2026-08-03", "commit": "b4f43b07f57b0a4398df9e7b7302ffccede24202", "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.5", "codeName": "Classic Har Gow · 蝦餃", "photoUrl": "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0001-classic-har-gow.png", "title": "Verified installer link", "body": "Linked the landing page to the verified installer." },
     { "version": "0.1.6", "date": "2026-08-03", "commit": "e2fe11c84f986d911201921621274ad2987eea1c", "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.6", "codeName": "Spinach Shrimp Dumpling · 菠菜蝦餃", "photoUrl": "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0006-spinach-shrimp-dumpling.png", "title": "Unique future release dishes", "body": "Resolved future release code names from the public catalog and verified their published photos." },
-    { "version": "0.1.7", "date": "2026-08-03", "commit": "43a9c21c28c793c86941b4de7957495827762989", "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.7", "codeName": "Pea Shoot Shrimp Dumpling · 豆苗蝦餃", "photoUrl": "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0007-pea-shoot-shrimp-dumpling.png", "title": "Current verified installer", "body": "Refreshed the public landing page to the verified current installer and synchronized the packaged release manifest." }
+    { "version": "0.1.7", "date": "2026-08-03", "commit": "43a9c21c28c793c86941b4de7957495827762989", "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.7", "codeName": "Pea Shoot Shrimp Dumpling · 豆苗蝦餃", "photoUrl": "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0007-pea-shoot-shrimp-dumpling.png", "title": "Verified installer link", "body": "Refreshed the public landing page to the verified installer and synchronized the packaged release manifest." },
+    { "version": "0.1.8", "date": "2026-08-03", "commit": "4dbb4ebd0a993a46f34d7e9e3f30e907ffb41013", "releaseUrl": "https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.8", "codeName": "Lobster Dumpling · 龍蝦餃", "photoUrl": "https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0008-lobster-dumpling.png", "title": "Current verified installer", "body": "Published the current verified Windows package and kept the landing-page installer marker release-aware." }
   ]
 }
