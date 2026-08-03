@@ -14,4 +14,4 @@
 - Add native screen-reader automation to the release gate.
 - Add a runtime test that seeds each language mode and proves the startup surprise remains non-blocking and correctly named.
 - [x] Resolve each future release code name from the public catalog with a monotonic run-number mapping and verify its published photo asset before release.
-- [x] Refresh the packaged changelog manifest through `v0.1.10`, enforce unique bilingual code names, and make Pages resolve the latest verified installer after the Windows release workflow succeeds.
+- [x] Refresh the packaged changelog manifest through `v0.1.11`, enforce unique bilingual code names, and make Pages resolve the latest verified installer and release-body code name after the Windows release workflow succeeds.

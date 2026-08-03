@@ -40,18 +40,23 @@ jobs:
           set -euo pipefail
           release_tag="$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName --jq '.tagName')"
           asset_url="$(gh release view --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[] | select(.name | endswith("-windows-x64.zip")) | .url' | head -n 1)"
-          release_sha="$(gh api "repos/$GITHUB_REPOSITORY/commits/$release_tag" --jq '.sha')"
+          release_sha="$(gh release view --repo "$GITHUB_REPOSITORY" --json targetCommitish --jq '.targetCommitish')"
+          release_code_name="$(gh release view --repo "$GITHUB_REPOSITORY" --json body --jq '.body' | awk '/^## Dim sum code name$/{getline; getline; print; exit}')"
           test -n "$release_tag"
           test -n "$asset_url"
-          node - "$asset_url" "$release_tag" "$release_sha" <<'NODE'
+          test -n "$release_sha"
+          test -n "$release_code_name"
+          RELEASE_CODE_NAME="$release_code_name" node - "$asset_url" "$release_tag" "$release_sha" <<'NODE'
           const fs = require('node:fs');
           const [assetUrl, releaseTag, releaseSha] = process.argv.slice(2);
+          const releaseCodeName = process.env.RELEASE_CODE_NAME;
           const path = 'docs/index.html';
           const original = fs.readFileSync(path, 'utf8');
           const updated = original
             .replace(/https:\/\/github\.com\/Ding-Ding-Projects\/dim-sum-atlas\/releases\/download\/[^/]+\/[^"']+-windows-x64\.zip/u, assetUrl)
             .replace(/Download Windows v[^ ]+ portable package/u, `Download Windows ${releaseTag} portable package`)
-            .replace(/href="https:\/\/github\.com\/Ding-Ding-Projects\/dim-sum-atlas\/releases\/tag\/[^"']+">v[^<]+<\/a>, built from <code>[^<]+<\/code>/u, `href="https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/${releaseTag}">${releaseTag}</a>, built from <code>${releaseSha}</code>`);
+            .replace(/href="https:\/\/github\.com\/Ding-Ding-Projects\/dim-sum-atlas\/releases\/tag\/[^"']+">v[^<]+<\/a>, built from <code>[^<]+<\/code>/u, `href="https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/${releaseTag}">${releaseTag}</a>, built from <code>${releaseSha}</code>`)
+            .replace(/Code name: [^<]+/u, `Code name: ${releaseCodeName}`);
           if (updated === original) console.log('Pages copy already advertises the latest verified release.');
           else fs.writeFileSync(path, updated);
           NODE

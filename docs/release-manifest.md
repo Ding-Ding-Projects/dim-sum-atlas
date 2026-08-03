@@ -4,7 +4,7 @@ The in-app release manifest at `src/release-info.json` is the user-facing source
 
 ## Behavior
 
-- The current entry matches the newest history entry, currently v0.1.10.
+- The current entry matches the newest history entry, currently v0.1.11.
 - Every history entry links to the exact commit that delivered it.
 - Each code name is resolved from the public catalog and is unique within this project history.
 - The app's Changelog and About surfaces use the same manifest, so they cannot silently disagree about the current release.
@@ -15,7 +15,7 @@ The manifest validator rejects duplicate versions, reused code names, malformed 
 
 ## Verification
 
-Run `npm run check`. This runs the catalog validator, source syntax checks, and `data/validate-release-info.mjs`, which currently reports 10 release entries with unique bilingual code names. The latest verified Windows release is [v0.1.10](https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.10), targeting `1e65c69`.
+Run `npm run check`. This runs the catalog validator, source syntax checks, and `data/validate-release-info.mjs`, which currently reports 11 release entries with unique bilingual code names. The latest verified Windows release is [v0.1.11](https://github.com/Ding-Ding-Projects/dim-sum-atlas/releases/tag/v0.1.11), targeting `8737f9c`.
 
 ## Suggested articles
 
