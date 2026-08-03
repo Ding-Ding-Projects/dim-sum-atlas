@@ -21,21 +21,33 @@ jobs:
       - shell: pwsh
         run: |
           $releaseTag = "v0.1.$env:GITHUB_RUN_NUMBER"
-          $releaseInfo = @{
-            version = $releaseTag.TrimStart('v')
-            date = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
+          $releaseVersion = $releaseTag.TrimStart('v')
+          $releaseDate = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
+          $photoUrl = 'https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0001-classic-har-gow.png'
+          $current = [ordered]@{
+            version = $releaseVersion
+            date = $releaseDate
             commit = $env:GITHUB_SHA
             releaseUrl = "https://github.com/$env:GITHUB_REPOSITORY/releases/tag/$releaseTag"
-            history = @(
-              @{
-                version = $releaseTag.TrimStart('v')
-                date = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
-                commit = $env:GITHUB_SHA
-                releaseUrl = "https://github.com/$env:GITHUB_REPOSITORY/releases/tag/$releaseTag"
-                title = 'Material 3 atlas release'
-                body = 'Published the public catalog atlas and its verified Windows package.'
-              }
-            )
+            codeName = 'Classic Har Gow · 蝦餃'
+            photoUrl = $photoUrl
+            title = 'Material 3 atlas release'
+            body = 'Published the public catalog atlas and its verified Windows package.'
+          }
+          $history = @()
+          if (Test-Path src/release-info.json) {
+            $existing = Get-Content src/release-info.json -Raw | ConvertFrom-Json
+            $history = @($existing.history | Where-Object { $_.version -ne $releaseVersion })
+          }
+          $history += [pscustomobject]$current
+          $releaseInfo = @{
+            version = $releaseVersion
+            date = $releaseDate
+            commit = $env:GITHUB_SHA
+            releaseUrl = "https://github.com/$env:GITHUB_REPOSITORY/releases/tag/$releaseTag"
+            codeName = $current.codeName
+            photoUrl = $photoUrl
+            history = $history
           } | ConvertTo-Json -Depth 5
           Set-Content -Path src/release-info.json -Value $releaseInfo -Encoding utf8
       - run: npm run check
@@ -47,6 +59,7 @@ jobs:
         run: |
           $tag = "v0.1.$env:GITHUB_RUN_NUMBER"
           $zip = "DimSumAtlas-$tag-windows-x64.zip"
+          $photoUrl = 'https://github.com/Ding-Ding-Projects/dim-sum-photos/releases/download/catalog-v1/hk-dish-0001-classic-har-gow.png'
           Compress-Archive -Path "dist/DimSumAtlas-win32-x64/*" -DestinationPath $zip
-          $notes = "Automated Windows portable build for $env:GITHUB_SHA.`n`n## CI line count`n`n````text`n$(Get-Content line-count.txt -Raw)````"
+          $notes = "Automated Windows portable build for $env:GITHUB_SHA.`n`n## Dim sum code name`n`nClassic Har Gow · 蝦餃`n`n[Public catalog photo]($photoUrl)`n`n## CI line count`n`n````text`n$(Get-Content line-count.txt -Raw)````"
           gh release create $tag $zip --repo $env:GITHUB_REPOSITORY --title "Dim Sum Atlas $tag" --notes $notes --target $env:GITHUB_SHA
