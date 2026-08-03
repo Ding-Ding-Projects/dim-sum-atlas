@@ -41,7 +41,7 @@ jobs:
           release_tag="$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName --jq '.tagName')"
           asset_url="$(gh release view --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[] | select(.name | endswith("-windows-x64.zip")) | .url' | head -n 1)"
           release_sha="$(gh release view --repo "$GITHUB_REPOSITORY" --json targetCommitish --jq '.targetCommitish')"
-          release_code_name="$(gh release view --repo "$GITHUB_REPOSITORY" --json body --jq '.body' | awk '/^## Dim sum code name$/{getline; getline; print; exit}')"
+          release_code_name="$(gh release view --repo "$GITHUB_REPOSITORY" --json body --jq '.body' | tr -d '\r' | awk '/^## Dim sum code name$/{getline; getline; print; exit}')"
           test -n "$release_tag"
           test -n "$asset_url"
           test -n "$release_sha"
